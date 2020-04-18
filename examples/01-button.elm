@@ -1,5 +1,5 @@
 import Browser
-import Html exposing (Html, button, div, text)
+import Html exposing (Html, button, div, text, br)
 import Html.Events exposing (onClick)
 
 
@@ -29,7 +29,7 @@ init =
 
 type Msg
   = Increment
-  | Decrement
+  | Decrement | Reset
 
 
 update : Msg -> Model -> Model
@@ -40,6 +40,9 @@ update msg model =
 
     Decrement ->
       model - 1
+
+    Reset ->
+      0
 
 
 
@@ -52,4 +55,6 @@ view model =
     [ button [ onClick Decrement ] [ text "-" ]
     , div [] [ text (String.fromInt model) ]
     , button [ onClick Increment ] [ text "+" ]
+    , br [] []
+    , button [ onClick Reset ] [ text "Reset!" ]
     ]
