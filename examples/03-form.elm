@@ -2,7 +2,7 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
-
+import Regex
 
 
 -- MAIN
@@ -72,7 +72,11 @@ viewInput t p v toMsg =
 
 viewValidation : Model -> Html msg
 viewValidation model =
-  if model.password == model.passwordAgain then
-    div [ style "color" "green" ] [ text "OK" ]
-  else
+  if model.password /= model.passwordAgain then
     div [ style "color" "red" ] [ text "Passwords do not match!" ]
+  else if String.length model.password < 8 then
+    div [ style "color" "red" ] [ text "Enter using more than 8 capital" ]
+  else if Regex.contains (Maybe.withDefault Regex.never <| Regex.fromString "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)") model.password == False then
+    div [ style "color" "red" ] [ text "Enter using upper case, lower case, and numeric characters" ]
+  else
+    div [ style "color" "green" ] [ text "OK" ]
